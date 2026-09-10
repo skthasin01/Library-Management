@@ -39,3 +39,17 @@ class Reservations(Base):
     user_id = Column(Integer,ForeignKey('users.id'))
     reservation_date = Column(DateTime,default=datetime.now)
     status = Column(String,default='pending')
+
+
+class IssueRecords(Base):
+    __tablename__ = 'issue_records'
+
+    id = Column(Integer,primary_key=True,index=True)
+    book_id = Column(Integer,ForeignKey('books.id'))
+    user_id = Column(Integer,ForeignKey('users.id'))
+    issue_date = Column(DateTime,default=datetime.now)
+    due_date = Column(DateTime)
+    return_date = Column(DateTime,nullable=True)
+    status = Column(String,default='Issued') #issued Or returned
+    fine_amount = Column(Float,default=0.0)
+    fine_paid = Column(Boolean,default=False)
