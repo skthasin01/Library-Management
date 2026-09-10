@@ -1,16 +1,12 @@
-from fastapi import FastAPI,APIRouter,HTTPException,Depends
+from fastapi import APIRouter,HTTPException,Depends
 from sqlalchemy.orm import Session
 from pydantic import BaseModel,Field
 from models import Users,Books,Reservations,IssueRecords
 from database import Sessionlocal
 from typing import Annotated,Optional
 from fastapi.responses import JSONResponse
-from datetime import timedelta,datetime,timezone
+from datetime import timedelta,datetime
 
-from passlib.context import CryptContext
-
-from fastapi.security import OAuth2PasswordRequestForm,OAuth2PasswordBearer
-from jose import jwt,JWTError
 from router.auth import get_current_user
 
 router = APIRouter()

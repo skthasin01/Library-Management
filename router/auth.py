@@ -1,4 +1,4 @@
-from fastapi import FastAPI,APIRouter,HTTPException,Depends
+from fastapi import APIRouter,HTTPException,Depends
 from sqlalchemy.orm import Session
 from pydantic import BaseModel,Field
 from models import Users
@@ -10,7 +10,7 @@ from datetime import timedelta,datetime,timezone
 from passlib.context import CryptContext
 
 from fastapi.security import OAuth2PasswordRequestForm,OAuth2PasswordBearer
-from jose import jwt,JWTError
+from jose import jwt
 
 router = APIRouter()
 
