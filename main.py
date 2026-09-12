@@ -29,7 +29,7 @@ def get_all_books(user : user_dependency,db:db_dependency):
 
     if user is None:
         raise HTTPException(status_code=401,detail="Faild Authentication")
-    books = db.query(books).all()
+    books = db.query(Books).all()
     return books
 
 @app.get('/books/{book_id}')
