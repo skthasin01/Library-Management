@@ -7,8 +7,19 @@ from database import engine,Sessionlocal
 from fastapi.responses import JSONResponse
 from router import admin,auth
 from router.auth import get_current_user
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 models.Base.metadata.create_all(bind = engine)
 app.include_router(auth.router)
