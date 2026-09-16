@@ -12,5 +12,5 @@ pytest
 httpx
 pytest-asyncio
 aiofiles
-jinja
+
 
