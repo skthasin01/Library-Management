@@ -47,7 +47,7 @@ def get_specific_books(user : user_dependency,db:db_dependency,book_id : int):
         raise HTTPException(status_code=401,detail="Faild Authentication")
     book = db.query(Books).filter(Books.id == book_id).first()
 
-    if book in None :
+    if book is None :
         raise HTTPException(status_code=404,detail='Book not found!!')
 
     return book
@@ -58,7 +58,7 @@ def reserve_book(user : user_dependency,db:db_dependency,book_id : int):
         raise HTTPException(status_code=401,detail="Faild Authentication")
 
     book = db.query(Books).filter(Books.id == book_id).first()
-    if book in None :
+    if book is None :
         raise HTTPException(status_code=404,detail='Book not found!!')
 
     reservation_model = Reservations(
@@ -76,7 +76,7 @@ def cancel_reservation(user : user_dependency,db:db_dependency,reservation_id : 
         raise HTTPException(status_code=401,detail="Faild Authentication")
 
     reservation = db.query(Reservations).filter(Reservations.id == reservation_id).first()
-    if reservation in None :
+    if reservation is None :
         raise HTTPException(status_code=404,detail='Reservation not found!!')
     
     reservation.status = 'cancelled'
