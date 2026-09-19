@@ -83,7 +83,7 @@ def update_book(user:user_dependency,db : db_dependency,updatebook : UpdateBooks
     
     update_book_data = updatebook.model_dump(exclude_unset=True)
 
-    for key,value in update_book_data.item():
+    for key,value in update_book_data.items():
         setattr(book,key,value)
 
     db.commit()
