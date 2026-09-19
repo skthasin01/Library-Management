@@ -77,7 +77,7 @@ def update_book(user:user_dependency,db : db_dependency,updatebook : UpdateBooks
     if user is None or user.get('role') != 'librarian':
         raise HTTPException(status_code=401, detail='Faild Authentication')
 
-    book = db.query(Books).filter(Books.id == book_id).firts()
+    book = db.query(Books).filter(Books.id == book_id).first()
     if book is None:
         raise HTTPException(status_code=404, detail='Book not Found!!')
     
