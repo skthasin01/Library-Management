@@ -72,7 +72,7 @@ def create_book(user:user_dependency,db : db_dependency,newbook : CreateBooks):
     return JSONResponse(status_code=201,content={'message': 'Book added Successfully'})
 
 @router.put('/admin/update_book/{book_id}')
-def create_book(user:user_dependency,db : db_dependency,updatebook : UpdateBooks,book_id : int):
+def update_book(user:user_dependency,db : db_dependency,updatebook : UpdateBooks,book_id : int):
 
     if user is None or user.get('role') != 'librarian':
         raise HTTPException(status_code=401, detail='Faild Authentication')
