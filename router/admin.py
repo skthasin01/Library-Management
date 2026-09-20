@@ -72,18 +72,18 @@ def create_book(user:user_dependency,db : db_dependency,newbook : CreateBooks):
     return JSONResponse(status_code=201,content={'message': 'Book added Successfully'})
 
 @router.put('/admin/update_book/{book_id}')
-def create_book(user:user_dependency,db : db_dependency,updatebook : UpdateBooks,book_id : int):
+def update_book(user:user_dependency,db : db_dependency,updatebook : UpdateBooks,book_id : int):
 
     if user is None or user.get('role') != 'librarian':
         raise HTTPException(status_code=401, detail='Faild Authentication')
 
-    book = db.query(Books).filter(Books.id == book_id).firts()
+    book = db.query(Books).filter(Books.id == book_id).first()
     if book is None:
         raise HTTPException(status_code=404, detail='Book not Found!!')
     
     update_book_data = updatebook.model_dump(exclude_unset=True)
 
-    for key,value in update_book_data.item():
+    for key,value in update_book_data.items():
         setattr(book,key,value)
 
     db.commit()
@@ -96,7 +96,7 @@ def delete_book(user:user_dependency,db : db_dependency,book_id : int):
     if user is None or user.get('role') != 'librarian':
         raise HTTPException(status_code=401, detail='Faild Authentication')
 
-    book = db.query(Books).filter(Books.id == book_id).firts()
+    book = db.query(Books).filter(Books.id == book_id).first()
     if book is None:
         raise HTTPException(status_code=404, detail='Book not Found!!')
     
@@ -125,14 +125,14 @@ def create_issue(user:user_dependency,db : db_dependency,issue_request : IssueBo
 
 
     loan_days = 14
-    issue_date = datetime.now
+    issue_date = datetime.now()
     
     issue_model = IssueRecords(
         book_id = issue_request.book_id,
         user_id = issue_request.user_id,
         issue_date = issue_date,
         due_date = issue_date + timedelta(days=loan_days),
-        status = 'isssued'
+        status = 'issued'
     )
     book.available_copies -= 1
 
@@ -140,7 +140,7 @@ def create_issue(user:user_dependency,db : db_dependency,issue_request : IssueBo
         Reservations.book_id == issue_request.book_id,
         Reservations.user_id == issue_request.user_id,
         Reservations.status == 'pending'
-    )
+    ).first()
     if reservation is not None:
         reservation.status = 'approved'
 
@@ -160,7 +160,7 @@ def return_book(user:user_dependency,db : db_dependency,issue_id : int):
     if issue is None:
         raise HTTPException(status_code=404,detail="Issue record not found")
 
-    return_date = datetime.now
+    return_date = datetime.now()
     fine = calculate_fine(issue.due_date,return_date)
 
     issue.return_date = return_date
