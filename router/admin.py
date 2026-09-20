@@ -160,7 +160,7 @@ def return_book(user:user_dependency,db : db_dependency,issue_id : int):
     if issue is None:
         raise HTTPException(status_code=404,detail="Issue record not found")
 
-    return_date = datetime.now
+    return_date = datetime.now()
     fine = calculate_fine(issue.due_date,return_date)
 
     issue.return_date = return_date
