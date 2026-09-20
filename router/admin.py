@@ -125,14 +125,14 @@ def create_issue(user:user_dependency,db : db_dependency,issue_request : IssueBo
 
 
     loan_days = 14
-    issue_date = datetime.now
+    issue_date = datetime.now()
     
     issue_model = IssueRecords(
         book_id = issue_request.book_id,
         user_id = issue_request.user_id,
         issue_date = issue_date,
         due_date = issue_date + timedelta(days=loan_days),
-        status = 'isssued'
+        status = 'issued'
     )
     book.available_copies -= 1
 
@@ -140,7 +140,7 @@ def create_issue(user:user_dependency,db : db_dependency,issue_request : IssueBo
         Reservations.book_id == issue_request.book_id,
         Reservations.user_id == issue_request.user_id,
         Reservations.status == 'pending'
-    )
+    ).first()
     if reservation is not None:
         reservation.status = 'approved'
 
